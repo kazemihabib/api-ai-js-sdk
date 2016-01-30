@@ -21,7 +21,7 @@
     var ERR_SPEECH = 3;
 
 
-    function apiAi(options) {
+    function ApiAi(options) {
         options = options || {};
         //setProperties
         this.server = options.server || url;
@@ -45,7 +45,10 @@
 
     }
 
-    apiAi.prototype.initXHR = function () {
+    /**
+     * initialise new xmlHttpRequest
+     */
+    ApiAi.prototype.initXHR = function () {
         var that = this;
 
         that.xhr = new XMLHttpRequest();
@@ -77,12 +80,10 @@
     /**
      * send json object to apiAi server
      * @param jsonObject
-     * @param callBack
      */
 
-    apiAi.prototype.sendJson = function (jsonObject, callBack) {
+    ApiAi.prototype.sendJson = function (jsonObject) {
 
-        console.log(jsonObject);
         var that = this;
         var contentType = "application/json;";// charset=utf-8";
         that.xhr.open('POST', that.server, true);
@@ -98,7 +99,7 @@
     /**
      * initialize speech recognition.
      */
-    apiAi.prototype.initSpeech = function () {
+    ApiAi.prototype.initSpeech = function () {
 
         var that = this;
         that.recognition = new webkitSpeechRecognition();
@@ -117,7 +118,7 @@
                 };
 
                 that.recognition._stop();
-                that.sendJson(json, that.recognition._start);
+                that.sendJson(json);
             }
             that.onSpeechResult(event);
         };
@@ -149,7 +150,7 @@
     /**
      * start the speechRecognition.
      */
-    apiAi.prototype.start = function () {
+    ApiAi.prototype.start = function () {
         var that = this;
         /**
          * if recognition already created start it
@@ -168,7 +169,7 @@
      * stop listening to more audio and to try to process the audio that is already received.
      */
 
-    apiAi.prototype.stop = function () {
+    ApiAi.prototype.stop = function () {
         var that = this;
 
         /**
@@ -182,12 +183,12 @@
     /**
      * it will stop the listening and stop recognizing and  abort the request if it has already been sent to api.ai server.
      */
-    apiAi.prototype.abort = function () {
+    ApiAi.prototype.abort = function () {
         var that = this;
 
         that.recognition.abort();
         that.xhr.abort();
 
-    }
-    window.apiAi = apiAi;
+    };
+    window.ApiAi = ApiAi;
 })();
