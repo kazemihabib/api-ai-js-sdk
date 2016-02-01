@@ -6,6 +6,7 @@
 (function () {
     var url = 'https://api.api.ai/v1/query?v=20150910';
 
+
     /**
      *varible used for stop listening when json send to apiAi server
      * @type {boolean}
@@ -24,7 +25,7 @@
     function ApiAi(options) {
         options = options || {};
         //setProperties
-        this.language = options.language || 'en-US';
+        this.language = "EN-US"; // default, change it with setLanguage function
         this.server = options.server || url;
         this.token = 'Bearer ' + options.token || 'Bearer ';
         this.timezone = options.timezone || "GMT +03:30";
@@ -49,6 +50,64 @@
 
     }
 
+    /**
+     * Set language
+     * @param lang
+     * @returns {*}
+     */
+    ApiAi.prototype.setLanguage = function (lang) {
+        var that = this;
+        var language = {
+            //google speech language: api.ai language
+            "PT-BR": "PT-BR",
+            "ZH-HK": "ZH-HK",
+            "ZH-CN": "ZH-CN",
+            "ZH-TW": "ZH-TW",
+            "EN-US": "EN",
+            "EN-AU": 'EN',
+            "EN-CA": "EN",
+            "EN-IN": "EN",
+            "EN-NZ": "EN",
+            "EN-ZA": "EN",
+            "EN-GB": "EN",
+            "NL-NL": "NL",
+            "FR-FR": "FR",
+            "DE-DE": "DE",
+            "IT-IT": "IT",
+            "JA": "Ja",
+            "KO": "kO",
+            "PT-PT": "PT",
+            "RU": "RU",
+            "ES-AR": "ES",
+            "ES-BO": "ES",
+            "ES-CL": "ES",
+            "ES-CO": "ES",
+            "ES-CR": "ES",
+            "ES-DO": "ES",
+            "ES-GT": "ES",
+            "ES-HN": "ES",
+            "ES-MX": "ES",
+            "ES-NI": "ES",
+            "ES-PA": "ES",
+            "ES-PY": "ES",
+            "ES-PE": "ES",
+            "ES-PR": "ES",
+            "ES-ES": "ES",
+            "ES-US": "ES",
+            "ES-UY": "ES",
+            "ES-VE": "ES",
+            "UK": "UK"
+        };
+
+        if (typeof language[lang.toUpperCase()] != 'undefined') {
+            that.language = language[lang.toUpperCase()];
+            that.recognition.lang = lang;
+            return "language changed";
+        }
+        else {
+            return "language is undefined";
+        }
+    };
     /**
      * Initialise new xmlHttpRequest
      */
@@ -120,7 +179,7 @@
                 var json = {
                     "query": event.results[0][0].transcript,
                     "timezone": that.timezone,
-                    "lang": "en",
+                    "lang":that.language,
                     "sessionId": that.sessionId
                 };
 
