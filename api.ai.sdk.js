@@ -24,6 +24,7 @@
     function ApiAi(options) {
         options = options || {};
         //setProperties
+        this.language = options.language || 'en-US';
         this.server = options.server || url;
         this.token = 'Bearer ' + options.token || 'Bearer ';
         this.timezone = options.timezone || "GMT +03:30";
@@ -32,12 +33,15 @@
         this.sessionId = options.sessionId || '';
         this.timeout = options.timeout || 10000;
 
+        this.autoRestart = options.autoRestart || true;
+
         //set callBacks
         this.onStart = doNothing;
-        this.onStop = doNothing;
+        this.onEnd = doNothing;
         this.onSpeechResult = doNothing;
         this.onResponse = doNothing();
         this.onError = doNothing();
+
 
         this.initXHR();
         function doNothing() {
@@ -46,7 +50,7 @@
     }
 
     /**
-     * initialise new xmlHttpRequest
+     * Initialise new xmlHttpRequest
      */
     ApiAi.prototype.initXHR = function () {
         var that = this;
@@ -61,7 +65,8 @@
         that.xhr.onError = function (e) {
             that.onError(ERR_AJAX, "error");
             console.log("rn started at 60  ");
-            that.recognition._start();
+            if (that.autoRestart)
+                that.recognition._start();
         };
 
         that.xhr.onreadystatechange = function () {
@@ -71,14 +76,16 @@
                 }
                 else
                     that.onError(ERR_AJAX_RESPONSE, that.xhr.status);
-
-                that.recognition._start();
+                if (that.autoRestart)
+                    that.recognition._start();
             }
         };
 
     };
+
+
     /**
-     * send json object to apiAi server
+     * Send json object to apiAi server
      * @param jsonObject
      */
 
@@ -97,7 +104,7 @@
     };
 
     /**
-     * initialize speech recognition.
+     * Initialize speech recognition.
      */
     ApiAi.prototype.initSpeech = function () {
 
@@ -114,7 +121,7 @@
                     "query": event.results[0][0].transcript,
                     "timezone": that.timezone,
                     "lang": "en",
-                    "sessionId":that.sessionId
+                    "sessionId": that.sessionId
                 };
 
                 that.recognition._stop();
@@ -127,28 +134,31 @@
             that.recognition.stop();
             isListening = false;
         };
-        that.recognition._start = function (line) {
+        that.recognition._start = function () {
             that.recognition.start();
             isListening = true;
         };
 
         that.recognition.onend = function () {
-            if (isListening)
+            //don't restart if it's waiting for response from api.ai server or auto restart is false;
+            if (isListening && that.autoRestart)
                 that.recognition._start();
+            that.onEnd();
         };
 
-        that.recognition.enerror = function (error) {
-            that.onError(ERR_SPEECH, error);
+        that.recognition.enerror = function (event) {
+            that.onError(ERR_SPEECH, event.error);
         };
 
         that.recognition.onstart = function () {
-            that.recognition.start
-            isListening = true;
+            that.onStart();
         };
 
     };
+
+
     /**
-     * start the speechRecognition.
+     * Start the speechRecognition.
      */
     ApiAi.prototype.start = function () {
         var that = this;
@@ -166,7 +176,7 @@
     };
 
     /**
-     * stop listening to more audio and to try to process the audio that is already received.
+     * Stop listening to more audio and to try to process the audio that is already received.
      */
 
     ApiAi.prototype.stop = function () {
@@ -180,8 +190,10 @@
         }
 
     };
+
     /**
-     * it will stop the listening and stop recognizing and  abort the request if it has already been sent to api.ai server.
+     * Stop the listening and stop recognizing and  abort the request if it has already been sent to api.ai server.
+     * @private
      */
     ApiAi.prototype.abort = function () {
         var that = this;
