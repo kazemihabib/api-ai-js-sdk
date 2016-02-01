@@ -261,5 +261,13 @@
         that.xhr.abort();
 
     };
+
+    /**
+     * return is still listening;
+     * @returns {boolean}
+     */
+    ApiAi.prototype.isListening= function () {
+        return isListening;
+    };
     window.ApiAi = ApiAi;
 })();
