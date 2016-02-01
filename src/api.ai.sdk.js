@@ -25,7 +25,7 @@
     function ApiAi(options) {
         options = options || {};
         //setProperties
-        this.language = "EN-US"; // default, change it with setLanguage function
+        this.language = "EN"; // default, change it with setLanguage function
         this.server = options.server || url;
         this.token = 'Bearer ' + options.token || 'Bearer ';
         this.timezone = options.timezone || "GMT +03:30";
