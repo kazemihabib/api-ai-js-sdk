@@ -43,6 +43,12 @@
         this.onResponse = doNothing();
         this.onError = doNothing();
 
+        this.onAudioStart =doNothing();
+        this.onAudioEnd=doNothing();
+        this.onSoundStart=doNothing();
+        this.onSoundEnd=doNothing();
+        this.onSpeechStart = doNothing();
+        this.onSpeechEnd = doNothing();
 
         this.initXHR();
         function doNothing() {
@@ -213,6 +219,31 @@
             that.onStart();
         };
 
+        that.recognition.onaudiostart=function(){
+            that.onAudioStart();
+        };
+
+        that.recognition.onaudioend=function(){
+            that.onAudioEnd;
+        };
+
+        that.recognition.onsoundstart = function(){
+            that.onSoundStart();
+        };
+
+        that.recognition.onsoundend = function(){
+            that.onSoundEnd();
+        };
+
+        that.recognition.onspeechstart = function(){
+            that.onSpeechStart();
+        };
+
+        that.recognition.onspeechend = function(){
+            that.onSpeechEnd();
+        }
+
+
     };
 
 
@@ -269,5 +300,6 @@
     ApiAi.prototype.isListening= function () {
         return isListening;
     };
+
     window.ApiAi = ApiAi;
 })();
