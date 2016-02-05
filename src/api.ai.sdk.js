@@ -13,6 +13,8 @@
      */
     var isListening = false;
 
+    var userAllowed = false;
+
     /**
      * Error codes
      */
@@ -129,7 +131,6 @@
         };
         that.xhr.onError = function (e) {
             that.onError(ERR_AJAX, "error");
-            console.log("rn started at 60  ");
             if (that.autoRestart)
                 that.recognition._start();
         };
@@ -200,8 +201,14 @@
             isListening = false;
         };
         that.recognition._start = function () {
-            that.recognition.start();
-            isListening = true;
+            if (userAllowed) {
+                that.recognition.start();
+                isListening = true;
+            }
+        };
+        that.recognition._abort = function () {
+            that.recognition.abort();
+            isListening = false;
         };
 
         that.recognition.onend = function () {
@@ -252,6 +259,8 @@
      */
     ApiAi.prototype.start = function () {
         var that = this;
+
+        userAllowed = true;
         /**
          * if recognition already created start it
          * else create it then start it.
@@ -272,6 +281,8 @@
     ApiAi.prototype.stop = function () {
         var that = this;
 
+        userAllowed = false;
+
         /**
          * if recognition already created stop it
          */
@@ -287,10 +298,9 @@
      */
     ApiAi.prototype.abort = function () {
         var that = this;
-
+        userAllowed = false;
         if (that.recognition) {
-            isListening = false;
-            that.recognition.abort();
+            that.recognition._abort();
         }
         that.xhr.abort();
 
