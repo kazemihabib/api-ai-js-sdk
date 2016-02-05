@@ -43,10 +43,10 @@
         this.onResponse = doNothing();
         this.onError = doNothing();
 
-        this.onAudioStart =doNothing();
-        this.onAudioEnd=doNothing();
-        this.onSoundStart=doNothing();
-        this.onSoundEnd=doNothing();
+        this.onAudioStart = doNothing();
+        this.onAudioEnd = doNothing();
+        this.onSoundStart = doNothing();
+        this.onSoundEnd = doNothing();
         this.onSpeechStart = doNothing();
         this.onSpeechEnd = doNothing();
 
@@ -185,7 +185,7 @@
                 var json = {
                     "query": event.results[0][0].transcript,
                     "timezone": that.timezone,
-                    "lang":that.language,
+                    "lang": that.language,
                     "sessionId": that.sessionId
                 };
 
@@ -219,27 +219,27 @@
             that.onStart();
         };
 
-        that.recognition.onaudiostart=function(){
+        that.recognition.onaudiostart = function () {
             that.onAudioStart();
         };
 
-        that.recognition.onaudioend=function(){
+        that.recognition.onaudioend = function () {
             that.onAudioEnd;
         };
 
-        that.recognition.onsoundstart = function(){
+        that.recognition.onsoundstart = function () {
             that.onSoundStart();
         };
 
-        that.recognition.onsoundend = function(){
+        that.recognition.onsoundend = function () {
             that.onSoundEnd();
         };
 
-        that.recognition.onspeechstart = function(){
+        that.recognition.onspeechstart = function () {
             that.onSpeechStart();
         };
 
-        that.recognition.onspeechend = function(){
+        that.recognition.onspeechend = function () {
             that.onSpeechEnd();
         }
 
@@ -288,7 +288,10 @@
     ApiAi.prototype.abort = function () {
         var that = this;
 
-        that.recognition.abort();
+        if (that.recognition) {
+            isListening = false;
+            that.recognition.abort();
+        }
         that.xhr.abort();
 
     };
@@ -297,7 +300,7 @@
      * return is still listening;
      * @returns {boolean}
      */
-    ApiAi.prototype.isListening= function () {
+    ApiAi.prototype.isListening = function () {
         return isListening;
     };
 
