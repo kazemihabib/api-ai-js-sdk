@@ -1,0 +1,103 @@
+body{
+    background-color: #86B4CC;
+}
+
+#title a{
+    font-weight: 600;
+    /*font-size: 1em;*/
+    font-weight: 600;
+    text-decoration: none;
+    color:black;
+}
+
+#title{
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+}
+
+#title a:hover{
+    color:#4183c4;
+}
+form label{
+    margin:10px;
+    margin-top:30px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width:200px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    font-weight: 600;
+    color:#787878;
+}
+
+.key-input{
+    width:300px;
+    margin-left:10px;
+    height: 30px;
+}
+
+.container{
+    width:340px;
+    padding:20px;
+    border:solid;
+    border-color: slategrey;
+    border-radius: 0.3cm;
+    margin:40px;
+    margin-left: 100px;
+    background-color: #ffffff;
+    margin-right: 0px;
+}
+
+#keys{
+    margin-bottom: 50px;
+    padding-bottom:40px;
+    padding-top:5px;
+}
+.icon{
+    margin:10px;
+    margin-right: 3px;
+    border:solid;
+    border-radius: 50%;
+    border-width: 1px;
+    padding:10px;
+    font-size:50px;
+    border-color: grey;
+    float: left;
+    color:black;
+    -webkit-user-select: none;
+}
+
+#mic-icon{
+    padding:10px 19px;
+}
+
+#mic-icon:active{
+    background-color:black;
+}
+
+#around-mic span{
+    border: solid;
+    border-width:1px;
+    margin:15px;
+    margin-right: 10px;
+    display: inline-block;
+    line-height: 35px;
+    padding: 10px;
+    padding-left:20px;
+    padding-right: 0px;
+    width:190px;
+    border-color:#787878; ;
+}
+
+#json-result{
+    width: 600px;
+    height: 400px;
+    float: right;
+    margin-right:100px;
+    margin-top:20px;
+    margin-bottom:0px;
+    white-space: pre;
+    overflow: auto;
+
+}

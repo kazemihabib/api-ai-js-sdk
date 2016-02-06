@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>api_ai_js_sdk Demo</title>
+    <link rel="stylesheet" href="font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href='//fonts.googleapis.com/css?family=Oxygen:400,300,700|Open+Sans:400,300,600,700' rel='stylesheet'
+          type='text/css'>
+
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1 id="title"><a href="https://github.com/kazemihabib/api-ai-js-sdk" target="_blank">api-ai-js-sdk</a> Demonstration
+</h1>
+
+<div id="json-result" class="container">
+</div>
+
+<form class="container" id="keys">
+    <label for="token-key">TokenKey</label>
+    <input name="token-key" id="token-key" id="token-key" class="key-input">
+    <label for="subscription-key">SubscriptionKey</label>
+    <input name="subscription-key" id="subscription-key" class="key-input">
+</form>
+
+
+<div id="around-mic" class="container">
+    <div id="mic-button">
+        <i class=" fa fa-microphone icon" id="mic-icon"></i>
+        <i class=" fa fa-spinner fa-spin  icon" id="spinner-icon" style="display: none"></i>
+    </div>
+    <span id="speech-text"> Say some thing</span>
+</div>
+
+<script src="api.ai.sdk.js"></script>
+<script src="speech.js"></script>
+</body>
+</html>
