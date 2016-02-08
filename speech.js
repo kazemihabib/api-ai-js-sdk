@@ -50,12 +50,6 @@ function setIconToSpinner(){
     spinnerIcon.style.display = 'inline-block';
 }
 
-//var options = {
-//    "subscriptionKey": "ccc25635-b18a-4561-963d-76650b268c46",
-//    "sessionId": "1234567890",
-//    "token": "e2e3f51f83064269bfe3ed587d3389a5"
-//};
-
 function init(options) {
     apiai = new ApiAi(options);
     apiai.onStart = function () {
