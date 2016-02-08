@@ -1,9 +1,19 @@
 # api-ai-js-sdk
+The easiest way to use [Api.ai](https://api.ai/) services in javascript.
+##features
+1. Easy to use
 
-#Demo
+2. Access to interim recognition results
+
+3. Do not need to call `startListening` and `stopListening` for each speech command,start it once It will detect start and end of speech automatically.
+
+4. Send it automatically to api.ai after each speech command.
+
+
+##Demo
 [Test api-ai-js-sdk with your token key](https://kazemihabib.github.io/api-ai-js-sdk/)
  
-# usage
+## usage
 In your HTML, include `api.ai.sdk.js`
 ```html
 <script src="api.ai.sdk.js"></script>
