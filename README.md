@@ -21,13 +21,14 @@ apiai = new ApiAi(options);
 ```
 
 
- Fired when browser's Speech Recognition engine starts listening
+ 
  ```javascript
 apiai.onStart = function () {
        //for example change color of microphone icon
     };
   ```
-  Fired when some speech identified.
+  Fired when browser's Speech Recognition engine starts listening
+  
  ```javascript   
 apiai.onSpeechResult = function (e) {
     console.log(e);
@@ -40,12 +41,22 @@ apiai.onSpeechResult = function (e) {
     }
 
   };
-```
-  Fired when error is happend
+ ```
+ 
+Fired when some speech identified
+```javascript
+apiai.onResponse = function (e) {
+       //do something with response
+    };
+ ```
+ Fired when there is response form api.ai
+
+ 
 ```javascript
 apiai.onError = function (e, explain) {
     //do something
 };
     
 ```
-    
+ Fired when error is happend
+
