@@ -14,7 +14,7 @@ The easiest way to use [Api.ai](https://api.ai/) services in javascript.
 [Test api-ai-js-sdk with your token key](https://kazemihabib.github.io/api-ai-js-sdk/)
 
 #Documentation
- SOON :)
+ [Read documentation here](https://github.com/kazemihabib/api-ai-js-sdk/blob/master/docs/README.md)
 ## usage
 In your HTML, include `api.ai.sdk.js`
 ```html
