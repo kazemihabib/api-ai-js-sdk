@@ -72,20 +72,32 @@ see [languages](https://docs.api.ai/docs/languages)
 
 # Callbacks:
 
-### onStart
+### onStart = function(){}
     Fired when browser's Speech Recognition engine starts listening
-### onEnd 
+### onEnd  =function(){}
     Fired when browser's Speech Recognition engine stops listening.
     If autoRestart has been set to 'true' it will automatically restart so after 
     this onStart will be fired.
-### onSpeechResult
+### onSpeechResult = function(speechResult){}
     Fired when some speech identified
 
-### onResponse 
+### onResponse = function(response){}
     Fired when there is response form api.ai
 
-### onError 
+### onError = function(errorNumber, detail){}
     Fired when error is happend
+    
+    
+# the errors:
+       ERR_AJAX_TIMEOUT = 1 
+            the time out Error
+       ERR_AJAX_RESPONSE = 2
+            when the status of api.ai response is not 200,the stat
+       ERR_SPEECH = 3
+            web speech api error
+       ERR_AJAX = 0 
+            other error with api.ai request handler
+
     
 ##### callbacks of speech recognition you can read more about them [here](https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html#speechreco-events)
     
