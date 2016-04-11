@@ -3,8 +3,10 @@
  * Created by pc on 1/29/2016.
  */
 
-(function () {
+(function() {
     var url = 'https://api.api.ai/v1/query?v=20150910';
+    var query = [];
+    var confidence = [];
 
 
     /**
@@ -53,8 +55,8 @@
         this.onSpeechEnd = doNothing();
 
         this.initXHR();
-        function doNothing() {
-        }
+
+        function doNothing() {}
 
     }
 
@@ -63,7 +65,7 @@
      * @param lang
      * @returns {*}
      */
-    ApiAi.prototype.setLanguage = function (lang) {
+    ApiAi.prototype.setLanguage = function(lang) {
         var that = this;
         var language = {
             //google speech language: api.ai language
@@ -111,36 +113,34 @@
             that.language = language[lang.toUpperCase()];
             that.recognition.lang = lang;
             return "language changed";
-        }
-        else {
+        } else {
             return "language is undefined";
         }
     };
     /**
      * Initialise new xmlHttpRequest
      */
-    ApiAi.prototype.initXHR = function () {
+    ApiAi.prototype.initXHR = function() {
         var that = this;
 
         that.xhr = new XMLHttpRequest();
 
         that.xhr.timeout = that.timeout;
-        that.xhr.ontimeout = function () {
+        that.xhr.ontimeout = function() {
             that.onError(ERR_AJAX_TIMEOUT, "connection timed out");
             //that.recognition._start(56);
         };
-        that.xhr.onError = function (e) {
+        that.xhr.onError = function(e) {
             that.onError(ERR_AJAX, "error");
             if (that.autoRestart)
                 that.recognition._start();
         };
 
-        that.xhr.onreadystatechange = function () {
+        that.xhr.onreadystatechange = function() {
             if (that.xhr.readyState == 4) {
                 if (that.xhr.status = 200) {
                     that.onResponse(that.xhr.response);
-                }
-                else
+                } else
                     that.onError(ERR_AJAX_RESPONSE, that.xhr.status);
                 if (that.autoRestart)
                     that.recognition._start();
@@ -155,10 +155,10 @@
      * @param jsonObject
      */
 
-    ApiAi.prototype.sendJson = function (jsonObject) {
+    ApiAi.prototype.sendJson = function(jsonObject) {
 
         var that = this;
-        var contentType = "application/json;";// charset=utf-8";
+        var contentType = "application/json;"; // charset=utf-8";
         that.xhr.open('POST', that.server, true);
 
 
@@ -172,81 +172,89 @@
     /**
      * Initialize speech recognition.
      */
-    ApiAi.prototype.initSpeech = function () {
+    ApiAi.prototype.initSpeech = function() {
 
         var that = this;
         that.recognition = new webkitSpeechRecognition();
         that.recognition.interimResults = true;
 
 
-        that.recognition.onresult = function (event) {
+        that.recognition.onresult = function(event) {
+            query.push(event.results[0][0].transcript);
+            confidence.push(event.results[0][0].confidence);
 
             if (event.results[0].isFinal) {
-
                 var json = {
-                    "query": event.results[0][0].transcript,
+                    "query": query,
+                    "confidence": confidence,
                     "timezone": that.timezone,
                     "lang": that.language,
                     "sessionId": that.sessionId
                 };
 
+                //clear the query and confidence when it is the final result
+                query = [];
+                confidence = [];
+
                 that.recognition._stop();
+                //send the results
                 that.sendJson(json);
+
             }
             that.onSpeechResult(event);
         };
 
-        that.recognition._stop = function () {
+        that.recognition._stop = function() {
             that.recognition.stop();
             isListening = false;
         };
-        that.recognition._start = function () {
+        that.recognition._start = function() {
             if (userAllowed) {
                 that.recognition.start();
                 isListening = true;
             }
         };
-        that.recognition._abort = function () {
+        that.recognition._abort = function() {
             that.recognition.abort();
             isListening = false;
         };
 
-        that.recognition.onend = function () {
+        that.recognition.onend = function() {
             //don't restart if it's waiting for response from api.ai server or auto restart is false;
             if (isListening && that.autoRestart)
                 that.recognition._start();
             that.onEnd();
         };
 
-        that.recognition.enerror = function (event) {
+        that.recognition.enerror = function(event) {
             that.onError(ERR_SPEECH, event.error);
         };
 
-        that.recognition.onstart = function () {
+        that.recognition.onstart = function() {
             that.onStart();
         };
 
-        that.recognition.onaudiostart = function () {
+        that.recognition.onaudiostart = function() {
             that.onAudioStart();
         };
 
-        that.recognition.onaudioend = function () {
+        that.recognition.onaudioend = function() {
             that.onAudioEnd;
         };
 
-        that.recognition.onsoundstart = function () {
+        that.recognition.onsoundstart = function() {
             that.onSoundStart();
         };
 
-        that.recognition.onsoundend = function () {
+        that.recognition.onsoundend = function() {
             that.onSoundEnd();
         };
 
-        that.recognition.onspeechstart = function () {
+        that.recognition.onspeechstart = function() {
             that.onSpeechStart();
         };
 
-        that.recognition.onspeechend = function () {
+        that.recognition.onspeechend = function() {
             that.onSpeechEnd();
         }
 
@@ -257,7 +265,7 @@
     /**
      * Start the speechRecognition.
      */
-    ApiAi.prototype.start = function () {
+    ApiAi.prototype.start = function() {
         var that = this;
 
         userAllowed = true;
@@ -267,8 +275,7 @@
          */
         if (that.recognition) {
             that.recognition._start();
-        }
-        else {
+        } else {
             that.initSpeech();
             that.recognition._start();
         }
@@ -278,7 +285,7 @@
      * Stop listening to more audio and to try to process the audio that is already received.
      */
 
-    ApiAi.prototype.stop = function () {
+    ApiAi.prototype.stop = function() {
         var that = this;
 
         userAllowed = false;
@@ -296,7 +303,7 @@
      * Stop the listening and stop recognizing and  abort the request if it has already been sent to api.ai server.
      * @private
      */
-    ApiAi.prototype.abort = function () {
+    ApiAi.prototype.abort = function() {
         var that = this;
         userAllowed = false;
         if (that.recognition) {
@@ -310,7 +317,7 @@
      * return is still listening;
      * @returns {boolean}
      */
-    ApiAi.prototype.isListening = function () {
+    ApiAi.prototype.isListening = function() {
         return isListening;
     };
 
