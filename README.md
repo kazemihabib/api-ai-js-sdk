@@ -1,3 +1,4 @@
+#[DEPRECATED]
 # api-ai-js-sdk
 The easiest way to use [Api.ai](https://api.ai/) services in javascript.
 ##features
